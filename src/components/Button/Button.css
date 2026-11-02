@@ -1,0 +1,150 @@
+/*
+ * Colours, spacing and radius come from src/tokens/tokens.css.
+ * Font sizes and line heights mirror the Figma text styles, which have no tokens yet.
+ * [data-state] forces a state for visual review, as :hover and :active cannot be forced in stories.
+ */
+.button {
+  --button-ring: color-mix(in srgb, var(--border-focus) 32%, transparent);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--button-bg, transparent);
+  color: var(--button-fg);
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+}
+
+.button:focus-visible,
+.button[data-state='focus'] {
+  outline: 2px solid transparent; /* stays visible in forced-colors mode */
+  box-shadow: 0 0 0 4px var(--button-ring);
+}
+
+.button__icon {
+  display: inline-flex;
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+.button__icon > svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Sizes */
+.button--sm {
+  gap: var(--space-6);
+  padding: var(--space-8) var(--space-12);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.button--md {
+  gap: var(--space-8);
+  padding: var(--space-12) var(--space-16);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.button--lg {
+  gap: var(--space-8);
+  padding: var(--space-12) var(--space-20);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* Primary */
+.button--primary {
+  --button-bg: var(--button-primary-bg-default);
+  --button-fg: var(--button-primary-text);
+}
+
+.button--primary:hover:not(:disabled),
+.button--primary[data-state='hover'] {
+  --button-bg: var(--button-primary-bg-hover);
+}
+
+.button--primary:active:not(:disabled),
+.button--primary[data-state='pressed'] {
+  --button-bg: var(--button-primary-bg-active);
+}
+
+.button--primary:disabled {
+  --button-bg: var(--button-primary-bg-disabled);
+  --button-fg: var(--button-primary-text-disabled);
+}
+
+/* Secondary. The border adds to the size, so it is 2px larger than the others, as in Figma. */
+.button--secondary {
+  --button-bg: var(--button-secondary-bg-default);
+  --button-fg: var(--button-secondary-text);
+
+  border: 1px solid var(--button-secondary-border);
+}
+
+.button--secondary:hover:not(:disabled),
+.button--secondary[data-state='hover'] {
+  --button-bg: var(--button-secondary-bg-hover);
+}
+
+.button--secondary:active:not(:disabled),
+.button--secondary[data-state='pressed'] {
+  --button-bg: var(--button-secondary-bg-active);
+}
+
+.button--secondary:disabled {
+  --button-fg: var(--text-disabled);
+
+  border-color: var(--border-subtle);
+}
+
+/* Ghost */
+.button--ghost {
+  --button-fg: var(--button-ghost-text);
+}
+
+.button--ghost:hover:not(:disabled),
+.button--ghost[data-state='hover'] {
+  --button-bg: var(--button-ghost-bg-hover);
+}
+
+.button--ghost:active:not(:disabled),
+.button--ghost[data-state='pressed'] {
+  --button-bg: var(--action-secondary-active);
+}
+
+.button--ghost:disabled {
+  --button-fg: var(--text-disabled);
+}
+
+/* Danger */
+.button--danger {
+  --button-bg: var(--button-danger-bg-default);
+  --button-fg: var(--button-danger-text);
+  --button-ring: color-mix(in srgb, var(--button-danger-bg-default) 32%, transparent);
+}
+
+.button--danger:hover:not(:disabled),
+.button--danger[data-state='hover'] {
+  --button-bg: var(--button-danger-bg-hover);
+}
+
+.button--danger:active:not(:disabled),
+.button--danger[data-state='pressed'] {
+  --button-bg: var(--button-danger-bg-active);
+}
+
+.button--danger:disabled {
+  --button-bg: var(--button-primary-bg-disabled);
+  --button-fg: var(--text-disabled);
+}
