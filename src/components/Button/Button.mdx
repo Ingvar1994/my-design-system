@@ -1,0 +1,161 @@
+import { Canvas, Meta, Unstyled } from '@storybook/addon-docs/blocks'
+import { Button } from './Button'
+import * as ButtonStories from './Button.stories'
+
+<Meta of={ButtonStories} name="Guidelines" />
+
+export const PlusIcon = () => (
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+    <path d="M8 3v10M3 8h10" />
+  </svg>
+)
+
+export const Example = ({ tone, caption, children }) => (
+  <figure style={{ margin: 0, border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-12)', alignItems: 'center', minHeight: 96, boxSizing: 'border-box', padding: 'var(--space-24)', background: 'var(--bg-canvas)' }}>
+      {children}
+    </div>
+    <figcaption style={{ padding: 'var(--space-12) var(--space-16)', font: '14px/20px system-ui, sans-serif', color: 'var(--text-primary)', background: 'var(--bg-elevated)' }}>
+      <strong style={{ color: tone === 'do' ? 'var(--status-success-text)' : 'var(--status-danger-text)' }}>
+        {tone === 'do' ? 'Так. ' : 'Ні. '}
+      </strong>
+      {caption}
+    </figcaption>
+  </figure>
+)
+
+export const Pair = ({ children }) => (
+  <Unstyled>
+    <div data-theme="light" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--space-16)', margin: '16px 0 32px' }}>
+      {children}
+    </div>
+  </Unstyled>
+)
+
+# Button: як використовувати
+
+Кнопка запускає дію на поточній сторінці: зберігає, надсилає, відкриває діалог. Опис усіх props і приклади є на сторінці **Docs**.
+
+```tsx
+import { Button } from './components/Button'
+
+<Button variant="primary" size="md" onClick={save}>Зберегти зміни</Button>
+```
+
+## Який тип вибрати
+
+| Тип | Коли використовувати | Приклад |
+|---|---|---|
+| `primary` | Головна дія екрана або діалогу, не більше однієї в групі | Зберегти зміни |
+| `secondary` | Альтернатива головній дії | Скасувати |
+| `ghost` | Допоміжна дія, яка не має відволікати, наприклад у панелі інструментів | Докладніше |
+| `danger` | Дія, яку важко скасувати | Видалити проєкт |
+
+<Canvas of={ButtonStories.Primary} />
+
+## Який розмір вибрати
+
+| Розмір | Висота | Коли використовувати |
+|---|---|---|
+| `sm` | 36 px | Щільні інтерфейси: таблиці, панелі інструментів |
+| `md` | 44 px | Форми й діалоги, а також сенсорні екрани |
+| `lg` | 48 px | Головна дія на великих екранах, наприклад на лендингу |
+
+<Canvas of={ButtonStories.Sizes} />
+
+## Текст кнопки
+
+- Починайте з дієслова й називайте результат: «Зберегти зміни», а не «ОК».
+- Пишіть коротко, бо текст не переноситься на новий рядок.
+- Пишіть той самий текст для тієї самої дії в усьому продукті.
+
+## Do's і don'ts
+
+<Pair>
+  <Example tone="do" caption="Одна головна дія, решта другорядні.">
+    <Button variant="primary">Зберегти</Button>
+    <Button variant="secondary">Скасувати</Button>
+  </Example>
+  <Example tone="dont" caption="Кілька Primary поруч: незрозуміло, що головне.">
+    <Button variant="primary">Зберегти</Button>
+    <Button variant="primary">Скасувати</Button>
+  </Example>
+</Pair>
+
+<Pair>
+  <Example tone="do" caption="Текст каже, що станеться після натискання.">
+    <Button variant="primary">Створити проєкт</Button>
+  </Example>
+  <Example tone="dont" caption="Текст нічого не пояснює, особливо поза контекстом.">
+    <Button variant="primary">Натисніть тут</Button>
+  </Example>
+</Pair>
+
+<Pair>
+  <Example tone="do" caption="Danger лише для дії, яку важко скасувати.">
+    <Button variant="danger">Видалити проєкт</Button>
+  </Example>
+  <Example tone="dont" caption="Danger заради уваги: червоний колір втрачає значення.">
+    <Button variant="danger">Зберегти</Button>
+  </Example>
+</Pair>
+
+<Pair>
+  <Example tone="do" caption="Іконка доповнює текст.">
+    <Button variant="secondary" iconLeft={<PlusIcon />}>Додати</Button>
+  </Example>
+  <Example tone="dont" caption="Лише іконка: у Figma такого варіанта немає, а читач екрана не отримає назви.">
+    <Button variant="secondary" iconLeft={<PlusIcon />} />
+  </Example>
+</Pair>
+
+Ще кілька правил:
+
+- **Так:** для переходу на іншу сторінку використовуйте посилання `<a>`. **Ні:** не робіть перехід через `Button`: він не підтримує `href` і не відкривається в новій вкладці.
+- **Так:** пояснюйте поруч, чому дія недоступна. **Ні:** не залишайте вимкнену кнопку без пояснення.
+- **Так:** у формі вказуйте `type="submit"`. **Ні:** не покладайтеся на типове значення, бо це `button`, і така кнопка форму не надсилає.
+
+## Доступність
+
+### Клавіатура
+
+Компонент використовує нативний `<button>`, тому клавіатура працює без додаткового коду.
+
+| Клавіша | Дія |
+|---|---|
+| `Tab` | Переводить фокус на кнопку, вимкнені кнопки пропускає |
+| `Shift` + `Tab` | Переводить фокус на попередній елемент |
+| `Enter` | Активує кнопку |
+| `Пробіл` | Активує кнопку |
+
+- Кільце фокуса з'являється під час роботи з клавіатурою (`:focus-visible`), а після клацання мишею зазвичай ні.
+- Не вимикайте кнопку, поки на ній фокус: він зникне, і користувач клавіатури втратить місце на сторінці.
+- У режимі високої контрастності Windows фокус показує контур, бо тіні там не видно.
+
+### Читач екрана
+
+- Читач екрана оголошує елемент як кнопку, а назву бере з `children`.
+- Декоративним іконкам додавайте `aria-hidden="true"`, щоб вони не потрапляли в оголошення. Сам компонент цього не робить.
+- Кнопці без видимого тексту обов'язково потрібен `aria-label`, але цей варіант не передбачений у Figma.
+- `disabled` передає стан «недоступно», і кнопка не отримує фокус, тому під час переходу за Tab її можна не почути. Причину пишіть звичайним текстом поруч.
+- Стан передавайте атрибутами: `aria-pressed` для перемикача, `aria-expanded` для меню. Вони передаються елементу напряму.
+- Окремого стану завантаження немає. Якщо дія триває довго, повідомте про це через область `aria-live`.
+
+```tsx
+<Button aria-expanded={isOpen} aria-controls="menu" onClick={toggle}>Меню</Button>
+```
+
+### Відомі обмеження
+
+Коефіцієнти контрасту розраховано за формулою WCAG для кольорів із токенів. Значення взято з Figma, тому виправляти їх варто спершу в макеті.
+
+| Елемент | Контраст | Вимога | Статус |
+|---|---|---|---|
+| Кільце фокуса на тлі canvas | 1,48–1,55:1 | 3:1 (WCAG 1.4.11) | Не проходить |
+| Текст `primary`, стан Pressed | 3,18:1 | 4,5:1 (WCAG 1.4.3) | Не проходить |
+| Текст `danger`, стан Hover | 4,13:1 | 4,5:1 (WCAG 1.4.3) | Не проходить |
+| Текст `danger`, стан Pressed | 3,05:1 | 4,5:1 (WCAG 1.4.3) | Не проходить |
+| Текст `primary`, стан Hover | 4,60:1 | 4,5:1 | Проходить |
+| Текст `secondary` і `ghost`, усі активні стани | від 6,91:1 | 4,5:1 | Проходить |
+
+Вимкнені кнопки WCAG 1.4.3 не оцінює. Текст розміру `lg` (16 px, Semi Bold) теж не вважається великим, тому вимога 4,5:1 стосується всіх розмірів.

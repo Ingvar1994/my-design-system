@@ -43,13 +43,22 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+/** Головна дія екрана або діалогу. */
 export const Primary: Story = { args: { variant: 'primary' } }
+
+/** Альтернатива головній дії. */
 export const Secondary: Story = { args: { variant: 'secondary' } }
+
+/** Допоміжна дія, яка не має відволікати. */
 export const Ghost: Story = { args: { variant: 'ghost' } }
+
+/** Дія, яку важко скасувати. */
 export const Danger: Story = { args: { variant: 'danger' } }
 
+/** Вимкнена кнопка не реагує на натискання і не отримує фокус. Причину варто пояснити поруч. */
 export const Disabled: Story = { args: { disabled: true } }
 
+/** Розміри `sm`, `md` і `lg`. */
 export const Sizes: Story = {
   render: (args) => (
     <div style={row}>
@@ -60,6 +69,7 @@ export const Sizes: Story = {
   ),
 }
 
+/** Іконка перед текстом, після тексту й з обох боків. Декоративні іконки мають `aria-hidden="true"`. */
 export const WithIcons: Story = {
   render: (args) => (
     <div style={row}>
@@ -70,7 +80,7 @@ export const WithIcons: Story = {
   ),
 }
 
-/** All 60 Figma variants. Hover, pressed and focus are forced with `data-state`. */
+/** Усі 60 варіантів із Figma. Стани наведення, натискання і фокуса показано примусово через `data-state`. */
 export const AllVariants: Story = {
   parameters: { controls: { disable: true } },
   render: (args) => (
